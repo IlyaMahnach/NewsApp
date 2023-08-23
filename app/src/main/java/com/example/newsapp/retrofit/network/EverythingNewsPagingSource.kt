@@ -20,17 +20,19 @@ class EverythingNewsPagingSource @AssistedInject constructor(
             return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }
 
-        val page : Int = params.key ?: 1
+        val page: Int = params.key ?: 1
         val pageSize: Int = params.loadSize.coerceAtMost((NewsService.MAX_PAGE_SIZE))
 
         val response = newsService.everything(query, page, pageSize)
-        if(response.isSuccessful){
+        if (response.isSuccessful) {
             val articles = checkNotNull(response.body()).articles.map { it.toArticle() }
-                val nextKey = if (articles.size<pageSize) null else page +1
-                val prevKey = if (page == 1) null else page - 1
+            val nextKey = if (articles.size < pageSize) null else page + 1
+            val prevKey = if (page == 1) null else page - 1
             return LoadResult.Page(articles, prevKey, nextKey)
-        } else
-        {return LoadResult.Error(HttpException(response))}}
+        } else {
+            return LoadResult.Error(HttpException(response))
+        }
+    }
 
 
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? {

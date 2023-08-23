@@ -15,11 +15,17 @@
     app:cardMaxElevation="12dp"
     app:contentPadding="8dp">
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <ImageView
+
+            android:clickable="true"
+            android:focusable="true"
             android:id="@+id/image"
             android:layout_width="0dp"
             android:layout_height="190dp"
@@ -70,6 +76,21 @@
             app:layout_constraintTop_toBottomOf="@+id/description"
             app:layout_goneMarginTop="8dp"
             tools:text="@tools:sample/lorem" />
+
+        <FrameLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.539"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/image"
+            app:layout_constraintVertical_bias="0.498">
+        </FrameLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

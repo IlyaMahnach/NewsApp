@@ -15,8 +15,8 @@ import javax.inject.Provider
 
 class HomeViewModel @Inject constructor(
     private val pagingSourceFactory: EverythingNewsPagingSource.Factory
-): ViewModel() {
-    val news: StateFlow<PagingData<Article>> = Pager(PagingConfig(pageSize = 5)){
+) : ViewModel() {
+    val news: StateFlow<PagingData<Article>> = Pager(PagingConfig(pageSize = 5)) {
         pagingSourceFactory.create(QUERY)
     }.flow
         .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-            private companion object{
+    private companion object {
         private const val QUERY = "ios"
     }
-    }
+}

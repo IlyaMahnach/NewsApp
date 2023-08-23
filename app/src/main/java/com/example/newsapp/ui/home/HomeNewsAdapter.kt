@@ -3,10 +3,11 @@ package com.example.newsapp.ui.home
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +17,9 @@ import com.example.newsapp.R
 import com.example.newsapp.databinding.ItemNewsBinding
 import com.example.newsapp.retrofit.model.Article
 
-class HomeNewsAdapter(context: Context) :
-    PagingDataAdapter<Article, HomeNewsViewHolder>(ArticleDiffItemCallback) {
+
+class HomeNewsAdapter(private val context: Context) :
+    PagingDataAdapter<Article, HomeNewsAdapter.HomeNewsViewHolder>(ArticleDiffItemCallback) {
 
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -28,24 +30,41 @@ class HomeNewsAdapter(context: Context) :
     override fun onBindViewHolder(holder: HomeNewsViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-}
+//
 
-class HomeNewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    private val viewBinding by viewBinding(ItemNewsBinding::bind)
+    inner class HomeNewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    fun bind(article: Article?) {
-        with(viewBinding) {
-            image.load(article?.urlToImage) {
-                placeholder(ColorDrawable(Color.TRANSPARENT))
+        private val viewBinding by viewBinding(ItemNewsBinding::bind)
+
+        fun bind(article: Article?) {
+            viewBinding.apply {
+                image.setOnClickListener {
+                    val builder = CustomTabsIntent.Builder()
+                    val customTabsIntent = builder.build()
+                    customTabsIntent.launchUrl(
+                        context, Uri.parse(article?.url)
+                    )
+
+                }
             }
-            title.text = article?.title
-            publishedAt.text = article?.publishedAt
-            description.text = article?.description
+
+
+            with(viewBinding) {
+                image.load(article?.urlToImage) {
+                    placeholder(ColorDrawable(Color.TRANSPARENT))
+                }
+                title.text = article?.title
+                publishedAt.text = article?.publishedAt
+                description.text = article?.description
+
+
+            }
 
         }
     }
 }
+
 
 private object ArticleDiffItemCallback : DiffUtil.ItemCallback<Article>() {
 
@@ -62,3 +81,6 @@ private object ArticleDiffItemCallback : DiffUtil.ItemCallback<Article>() {
     }
 
 }
+
+
+

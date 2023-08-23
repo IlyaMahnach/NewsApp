@@ -29,15 +29,11 @@ object AppModule {
     @Singleton
     @Provides
     fun provideNewsService(json: Json): NewsService {
-        val httpClient = OkHttpClient.Builder()
-            .addInterceptor(AuthInterceptor(BuildConfig.NEWS_API_KEY))
-            .build()
+        val httpClient =
+            OkHttpClient.Builder().addInterceptor(AuthInterceptor(BuildConfig.NEWS_API_KEY)).build()
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://newsapi.org")
-            .client(httpClient)
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-            .build()
+        val retrofit = Retrofit.Builder().baseUrl("https://newsapi.org").client(httpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType())).build()
 
         return retrofit.create(NewsService::class.java)
     }

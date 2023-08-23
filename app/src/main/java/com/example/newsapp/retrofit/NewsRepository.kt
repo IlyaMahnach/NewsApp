@@ -12,7 +12,8 @@ class NewsRepository @Inject constructor(
     fun queryAll(): PagingSource<Int, Article> {
         return everythingNewsPagingSourceFactory.create(QUERY)
     }
-    private companion object{
+
+    private companion object {
         private const val QUERY = "ios"
     }
 }
