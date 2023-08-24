@@ -1,7 +1,7 @@
 package com.example.newsapp.di
 
 import android.app.Application
-import com.example.newsapp.ui.home.HomeActivity
+import com.example.newsapp.ui.home.NewsListActivity
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 @Component(modules = [AppModule::class])
 interface AppComponent {
 
-    fun inject(homeActivity: HomeActivity)
+    fun inject(newsListActivity: NewsListActivity)
 
     @Component.Builder
     interface Builder {

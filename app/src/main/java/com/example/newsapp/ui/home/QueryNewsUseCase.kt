@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class QueryNewsUseCase @Inject constructor(private val repository: NewsRepository) {
 
-    operator fun invoke(query: String): PagingSource<Int, Article> {
+    operator fun invoke(): PagingSource<Int, Article> {
         return repository.queryAll()
     }
 }

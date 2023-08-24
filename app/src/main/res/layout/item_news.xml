@@ -20,17 +20,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:clickable="true"
+        android:id="@+id/clickAt"
+        android:focusable="true">
 
         <ImageView
 
-            android:clickable="true"
-            android:focusable="true"
             android:id="@+id/image"
             android:layout_width="0dp"
             android:layout_height="190dp"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
+            android:clickable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,6 +46,7 @@
             android:textAppearance="?textAppearanceHeadline5"
             android:textSize="30sp"
             android:textStyle="bold"
+            android:clickable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image"
@@ -58,6 +60,7 @@
             android:layout_marginTop="8dp"
             android:textAppearance="?textAppearanceHeadline5"
             android:textSize="20sp"
+            android:clickable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title"
@@ -71,25 +74,13 @@
             android:layout_marginTop="8dp"
             android:textAppearance="?textAppearanceHeadline5"
             android:textSize="16sp"
+            android:clickable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description"
             app:layout_goneMarginTop="8dp"
             tools:text="@tools:sample/lorem" />
 
-        <FrameLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.539"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/image"
-            app:layout_constraintVertical_bias="0.498">
-        </FrameLayout>
 
 
 

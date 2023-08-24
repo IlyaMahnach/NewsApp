@@ -10,11 +10,7 @@ import com.example.newsapp.databinding.ItemErrorBinding
 import com.example.newsapp.databinding.ItemProgressBinding
 
 class NewsLoaderStateAdapter() : LoadStateAdapter<NewsLoaderStateAdapter.ItemViewHolder>() {
-    private var onItemClickListener: ((String) -> Unit)? = null
 
-    //    fun onItemClickListener(listener: (String) -> Unit) {
-//        onItemClickListener = listener
-//    }
     override fun getStateViewType(loadState: LoadState) = when (loadState) {
         is LoadState.NotLoading -> error("Not supported")
         LoadState.Loading -> PROGRESS

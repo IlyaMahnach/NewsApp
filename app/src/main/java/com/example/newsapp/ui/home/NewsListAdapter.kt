@@ -18,8 +18,8 @@ import com.example.newsapp.databinding.ItemNewsBinding
 import com.example.newsapp.retrofit.model.Article
 
 
-class HomeNewsAdapter(private val context: Context) :
-    PagingDataAdapter<Article, HomeNewsAdapter.HomeNewsViewHolder>(ArticleDiffItemCallback) {
+class NewsListAdapter(private val context: Context) :
+    PagingDataAdapter<Article, NewsListAdapter.HomeNewsViewHolder>(ArticleDiffItemCallback) {
 
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -30,7 +30,6 @@ class HomeNewsAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: HomeNewsViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-//
 
 
     inner class HomeNewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -38,16 +37,16 @@ class HomeNewsAdapter(private val context: Context) :
         private val viewBinding by viewBinding(ItemNewsBinding::bind)
 
         fun bind(article: Article?) {
-            viewBinding.apply {
-                image.setOnClickListener {
-                    val builder = CustomTabsIntent.Builder()
-                    val customTabsIntent = builder.build()
-                    customTabsIntent.launchUrl(
-                        context, Uri.parse(article?.url)
-                    )
 
-                }
+            viewBinding.clickAt.setOnClickListener {
+                val builder = CustomTabsIntent.Builder()
+                val customTabsIntent = builder.build()
+                customTabsIntent.launchUrl(
+                    context, Uri.parse(article?.url)
+                )
+
             }
+
 
 
             with(viewBinding) {
@@ -57,10 +56,7 @@ class HomeNewsAdapter(private val context: Context) :
                 title.text = article?.title
                 publishedAt.text = article?.publishedAt
                 description.text = article?.description
-
-
             }
-
         }
     }
 }
@@ -73,13 +69,9 @@ private object ArticleDiffItemCallback : DiffUtil.ItemCallback<Article>() {
     }
 
     override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
-        return oldItem.title == newItem.title
-                && oldItem.url == newItem.url
-                && oldItem.publishedAt == newItem.publishedAt
-                && oldItem.description == newItem.description
+        return oldItem.title == newItem.title && oldItem.url == newItem.url && oldItem.publishedAt == newItem.publishedAt && oldItem.description == newItem.description
 
     }
-
 }
 
 

@@ -14,11 +14,11 @@
         android:theme="@style/Theme.NewsApp">
 
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name=".ui.home.NewsListActivity"
             android:exported="true"
             android:label="News" />
         <activity
-            android:name=".ui.home.MainActivity"
+            android:name=".ui.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.MyApp.MySplash">
             <intent-filter>

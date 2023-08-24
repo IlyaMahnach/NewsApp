@@ -1,7 +1,6 @@
 package com.example.newsapp.ui.home
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -13,17 +12,15 @@ import com.example.newsapp.databinding.ActivityHomeBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Provider
 
 
-class HomeActivity : AppCompatActivity(R.layout.activity_home) {
+class NewsListActivity : AppCompatActivity(R.layout.activity_home) {
     @Inject
-    lateinit var viewModelProvider: Provider<HomeViewModel.Factory>
+    lateinit var newsListViewModel: NewsListViewModel
 
     private val viewBinding by viewBinding(ActivityHomeBinding::bind)
-    private val homeViewModel: HomeViewModel by viewModels { viewModelProvider.get() }
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
-        HomeNewsAdapter(this)
+        NewsListAdapter(this)
     }
 
 
@@ -39,7 +36,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         }
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                homeViewModel.news.collectLatest(adapter::submitData)
+                newsListViewModel.news.collectLatest(adapter::submitData)
 
             }
         }

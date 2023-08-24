@@ -11,8 +11,7 @@ import retrofit2.HttpException
 
 
 class EverythingNewsPagingSource @AssistedInject constructor(
-    private val newsService: NewsService,
-    @Assisted("query") private val query: String
+    private val newsService: NewsService, @Assisted("query") private val query: String
 ) : PagingSource<Int, Article>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
@@ -20,17 +19,26 @@ class EverythingNewsPagingSource @AssistedInject constructor(
             return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }
 
-        val page: Int = params.key ?: 1
-        val pageSize: Int = params.loadSize.coerceAtMost((NewsService.MAX_PAGE_SIZE))
+        try {
+            val page: Int = params.key ?: 1
+            val pageSize: Int = params.loadSize.coerceAtMost((NewsService.MAX_PAGE_SIZE))
 
-        val response = newsService.everything(query, page, pageSize)
-        if (response.isSuccessful) {
-            val articles = checkNotNull(response.body()).articles.map { it.toArticle() }
-            val nextKey = if (articles.size < pageSize) null else page + 1
-            val prevKey = if (page == 1) null else page - 1
-            return LoadResult.Page(articles, prevKey, nextKey)
-        } else {
-            return LoadResult.Error(HttpException(response))
+            val response = newsService.everything(query, page, pageSize)
+            return if (response.isSuccessful) {
+                val articles = checkNotNull(response.body()).articles.map { it.toArticle() }
+                val nextKey = if (articles.size < pageSize) null else page + 1
+                val prevKey = if (page == 1) null else page - 1
+                LoadResult.Page(articles, prevKey, nextKey)
+            } else {
+                LoadResult.Error(HttpException(response))
+            }
+
+        } catch (e: HttpException) {
+            return LoadResult.Error(e)
+
+        } catch (e: Exception) {
+            return LoadResult.Error(e)
+
         }
     }
 
@@ -46,7 +54,6 @@ class EverythingNewsPagingSource @AssistedInject constructor(
 
         fun create(@Assisted("query") query: String): EverythingNewsPagingSource
     }
-
 
 }
 

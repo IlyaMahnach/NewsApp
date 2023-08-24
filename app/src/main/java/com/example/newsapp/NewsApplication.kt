@@ -21,7 +21,4 @@ class NewsApplication : Application() {
 }
 
 val Context.appComponent: AppComponent
-    get() = when (this) {
-        is NewsApplication -> appComponent
-        else -> (this.applicationContext as NewsApplication).appComponent
-    }
+    get() = (this.applicationContext as NewsApplication).appComponent
