@@ -5,6 +5,8 @@
     android:id="@+id/error_message"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
     android:gravity="center"
     android:minHeight="56dp"
     android:padding="4dp"
@@ -12,4 +14,4 @@
     android:textAppearance="?textAppearanceSubtitle1"
     android:textColor="?colorError"
     tools:text="Unknown error"
-    />
+     />

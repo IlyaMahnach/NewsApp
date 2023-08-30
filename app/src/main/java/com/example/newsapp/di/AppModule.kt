@@ -23,6 +23,7 @@ object AppModule {
     fun provideJson(): Json {
         return Json(Json.Default) {
             ignoreUnknownKeys = true
+            coerceInputValues = true
         }
     }
 

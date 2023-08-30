@@ -44,25 +44,13 @@ interface NewsService {
     }
 
     enum class SortBy {
-        /**
-         * articles more closely related to query come first.
-         */
-        relevancy,
 
-        /**
-         * articles from popular sources and publishers come first
-         */
-        popularity,
-
-        /**
-         * newest articles come first
-         */
         publishedAt
     }
 
     companion object {
 
-        const val DEFAULT_PAGE_SIZE = 20
+        const val DEFAULT_PAGE_SIZE = 5
         const val MAX_PAGE_SIZE = 20
     }
 }
