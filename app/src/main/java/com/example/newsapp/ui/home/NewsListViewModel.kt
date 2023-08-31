@@ -4,26 +4,33 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
-import com.example.newsapp.retrofit.model.Article
-import com.example.newsapp.retrofit.network.EverythingNewsPagingSource
+import com.example.newsapp.Constants
+import com.example.newsapp.retrofit.network.NewsService
+import com.example.newsapp.storage.AppDatabase
+import com.example.newsapp.storage.news.NewsEntity
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Provider
 
 class NewsListViewModel @Inject constructor(
-    private val pagingSourceFactory: EverythingNewsPagingSource.Factory,
+    database: AppDatabase,
+    newsService: NewsService
+) : ViewModel() {
 
-
-    ) : ViewModel() {
-
-    val news: StateFlow<PagingData<Article>> = Pager(
-        PagingConfig(pageSize = 5, prefetchDistance = 5),
-
-        ) {
-        pagingSourceFactory.create(QUERY)
-
-    }.flow.cachedIn(viewModelScope)
-        .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
+    @OptIn(ExperimentalPagingApi::class)
+    val news: Flow<PagingData<NewsEntity>> = Pager(
+        config = PagingConfig(
+            pageSize = NewsService.DEFAULT_PAGE_SIZE,
+            initialLoadSize = Constants.INITIAL_LOAD_SIZE,
+            maxSize = Constants.DEFAULT_PREFETCH * 2 + NewsService.DEFAULT_PAGE_SIZE,
+            prefetchDistance = Constants.DEFAULT_PREFETCH,
+            enablePlaceholders = true
+        ),
+        remoteMediator = com.example.newsapp.paging.RemoteMediator(database, newsService),
+        pagingSourceFactory = { database.newsDao().getAllNews() }
+    )
+        .flow
+        .cachedIn(viewModelScope)
 
     @Suppress("UNCHECKED_CAST")
     class Factory @Inject constructor(

@@ -31,7 +31,7 @@ class RemoteMediator @Inject constructor(
         loadType: LoadType,
         state: PagingState<Int, NewsEntity>
     ): MediatorResult {
-        return try {
+        try {
             val page = when (loadType) {
                 LoadType.REFRESH -> {
                     val refreshKey = getClosestRemoteKeys(state)
@@ -46,8 +46,12 @@ class RemoteMediator @Inject constructor(
             }
 
             val isLastPage = page == LAST_PAGE
-            val response = newsService.everything(page = page, pageSize = state.config.maxSize)
-            val listOfArticles = response.body()!!.articles.map { it.toEntity() }
+            val response = newsService.getNews(page = page)
+            val listOfArticles = response.body()?.articles?.filter {
+                it.url != null
+            }?.map { articleItem ->
+                articleItem.toEntity()
+            } ?: listOf()
             if (response.isSuccessful) {
                 database.withTransaction {
                     if (loadType == LoadType.REFRESH) {
@@ -57,7 +61,7 @@ class RemoteMediator @Inject constructor(
 
                     val nextKey = if (isLastPage) null else page + 1
                     val keys = listOfArticles.map {
-                        RemoteKeysEntity(id = it.title, nextKey = nextKey)
+                        RemoteKeysEntity(id = it.url, nextKey = nextKey)
                     }
                     remoteKeyDao.insertAll(keys)
                     newsDao.insertAll(listOfArticles)
@@ -75,7 +79,7 @@ class RemoteMediator @Inject constructor(
     private suspend fun getClosestRemoteKeys(state: PagingState<Int, NewsEntity>): RemoteKeysEntity? {
         return state.anchorPosition?.let {
             state.closestItemToPosition(it)?.let { entity ->
-                remoteKeyDao.getRemoteKeys(entity.title)
+                remoteKeyDao.getRemoteKeys(entity.url)
             }
         }
     }
@@ -84,6 +88,6 @@ class RemoteMediator @Inject constructor(
         return state.pages
             .lastOrNull { it.data.isNotEmpty() }
             ?.data?.lastOrNull()
-            ?.let { entity -> remoteKeyDao.getRemoteKeys(entity.title) }
+            ?.let { entity -> remoteKeyDao.getRemoteKeys(entity.url) }
     }
 }

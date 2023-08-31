@@ -8,11 +8,11 @@ import androidx.room.PrimaryKey
 data class NewsEntity(
 
     @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "title")
-    val title: String,
-
     @ColumnInfo(name = "url")
-    val url: String?,
+    val url: String,
+
+    @ColumnInfo(name = "title")
+    val title: String?,
 
     @ColumnInfo(name = "description")
     val description: String?,
@@ -21,5 +21,5 @@ data class NewsEntity(
     val urlToImage: String?,
 
     @ColumnInfo(name = "publishedAt")
-    val publishedAt: String?,
+    val publishedAt: String?
 )

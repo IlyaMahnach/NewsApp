@@ -10,7 +10,7 @@ interface NewsDao {
     suspend fun insertAll(news: List<NewsEntity>)
 
     @Query("SELECT * FROM cacheNews")
-    fun pagingSource(): PagingSource<Int, NewsEntity>
+    fun getAllNews(): PagingSource<Int, NewsEntity>
 
     @Query("DELETE FROM cacheNews")
     suspend fun clearAll()

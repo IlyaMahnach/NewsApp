@@ -1,10 +1,10 @@
 package com.example.newsapp.retrofit.network.model
 
-import kotlinx.serialization.SerialName
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class SourceDto(
-    @SerialName("id") val id: String?,
-    @SerialName("name") val name: String,
+    @SerializedName("id") val id: String?,
+    @SerializedName("name") val name: String?,
 )

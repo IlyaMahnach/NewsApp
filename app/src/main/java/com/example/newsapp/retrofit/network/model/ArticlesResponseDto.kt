@@ -1,15 +1,13 @@
 package com.example.newsapp.retrofit.network.model
 
 import androidx.annotation.IntRange
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.SerialName
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
-@ExperimentalSerializationApi
 @Serializable
 data class ArticlesResponseDto(
-    @SerialName("status") val status: String,
-    @SerialName("totalResults") @IntRange(from = 1) val totalResults: Int,
-    @SerialName("message") val message: String? = null,
-    @SerialName("articles") val articles: List<ArticleDto>,
+    @SerializedName("status") val status: String,
+    @SerializedName("totalResults") @IntRange(from = 1) val totalResults: Int,
+    @SerializedName("message") val message: String? = null,
+    @SerializedName("articles") val articles: List<ArticleDto>,
 )

@@ -54,7 +54,7 @@ class NewsListAdapter(private val context: Context) :
                     placeholder(ColorDrawable(Color.TRANSPARENT))
                 }
                 title.text = article?.title
-                publishedAt.text = article?.publishedAt.toString()
+                publishedAt.text = article?.publishedAt
                 description.text = article?.description
             }
         }

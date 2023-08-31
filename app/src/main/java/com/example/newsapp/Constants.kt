@@ -3,7 +3,9 @@ package com.example.newsapp
 
 class Constants {
     companion object {
+        const val DEFAULT_PAGE_SIZE = 10
         const val INITIAL_LOAD_SIZE = 10
+        const val DEFAULT_QUERY = "ios"
         const val INITIAL_PAGE_NUMBER = 1
         const val LAST_PAGE = 5
         const val DEFAULT_PREFETCH = 5
