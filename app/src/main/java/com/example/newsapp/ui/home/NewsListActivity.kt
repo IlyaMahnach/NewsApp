@@ -35,8 +35,10 @@ class NewsListActivity : AppCompatActivity(R.layout.activity_home) {
                 header = NewsLoaderStateAdapter(),
                 footer = NewsLoaderStateAdapter()
             )
-            refreshLayout.setOnRefreshListener {
+            val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.refreshLayout)
+            swipeRefreshLayout.setOnRefreshListener {
                 adapter.retry()
+                swipeRefreshLayout.isRefreshing = false
             }
         }
         lifecycleScope.launch {
